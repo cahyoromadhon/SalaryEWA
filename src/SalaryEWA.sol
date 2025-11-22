@@ -113,11 +113,7 @@ contract SalaryEWA is Ownable(msg.sender), Pausable, ReentrancyGuard {
     // Employer Functions
     // -----------------------------------------------------------------------
 
-    function registerEmployee(address _employee, uint256 _monthlySalary)
-        external
-        onlyEmployer
-        whenNotPaused
-    {
+    function registerEmployee(address _employee, uint256 _monthlySalary) external onlyEmployer whenNotPaused {
         require(_employee != address(0), "Zero address");
         require(_monthlySalary > 0, "Salary > 0");
 
@@ -133,11 +129,7 @@ contract SalaryEWA is Ownable(msg.sender), Pausable, ReentrancyGuard {
         emit EmployeeRegistered(_employee, _monthlySalary);
     }
 
-    function updateEmployeeSalary(address _employee, uint256 _newMonthlySalary)
-        external
-        onlyEmployer
-        whenNotPaused
-    {
+    function updateEmployeeSalary(address _employee, uint256 _newMonthlySalary) external onlyEmployer whenNotPaused {
         require(_newMonthlySalary > 0, "Salary > 0");
 
         Employee storage emp = employees[_employee];
@@ -177,12 +169,7 @@ contract SalaryEWA is Ownable(msg.sender), Pausable, ReentrancyGuard {
         emit Funded(msg.sender, _amount);
     }
 
-    function releaseSalary(address _employee)
-        external
-        onlyEmployer
-        nonReentrant
-        whenNotPaused
-    {
+    function releaseSalary(address _employee) external onlyEmployer nonReentrant whenNotPaused {
         Employee storage emp = employees[_employee];
         require(emp.exists, "Not employee");
 
@@ -197,12 +184,7 @@ contract SalaryEWA is Ownable(msg.sender), Pausable, ReentrancyGuard {
         emit SalaryReleased(_employee, amount);
     }
 
-    function refundEmployee(address _employee, uint256 _amount)
-        external
-        onlyEmployer
-        nonReentrant
-        whenNotPaused
-    {
+    function refundEmployee(address _employee, uint256 _amount) external onlyEmployer nonReentrant whenNotPaused {
         Employee storage emp = employees[_employee];
         require(emp.exists, "Not employee");
 
@@ -221,12 +203,7 @@ contract SalaryEWA is Ownable(msg.sender), Pausable, ReentrancyGuard {
     // Employee Functions
     // -----------------------------------------------------------------------
 
-    function requestAdvance(uint256 _amount)
-        external
-        onlyActiveEmployee
-        nonReentrant
-        whenNotPaused
-    {
+    function requestAdvance(uint256 _amount) external onlyActiveEmployee nonReentrant whenNotPaused {
         Employee storage emp = employees[msg.sender];
         _updateAccrual(emp);
 
